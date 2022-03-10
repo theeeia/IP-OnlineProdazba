@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+        function counter() {
+            var neup= document.getElementsByClassName("ne");
+           document.getElementById("count").innerHTML=neup.length
+
+        }
+        function potvrdi(el) {
+            el.disabled
+            var x= el.parentNode.children
+            console.log(x)
+            x[0].disabled=true;
+            x[1].disabled=true;
+        }
+        function del(el) {
+            var x=el.parentNode
+            x.parentNode.removeChild(x)
+            counter();
+
+        }
+        function dodadi() {
+            var ime = document.getElementById("ime").value
+            var prezime = document.getElementById("prez").value
+            var deklaracija = document.getElementById("dekl").value
+            var proizvoditel = document.getElementById("proiz").value
+            var sostojba  = document.getElementById("sostojba").value
+            var id='';
+            if(ime !=""&& prezime!="" && deklaracija!=""  && proizvoditel!="" && sostojba!=""){
+
+                for(var c of deklaracija){ //za ID
+                    if(parseInt(c)%2==1)
+                        id+="$";
+                    else if(parseInt(c)%2==0)
+                        id+="#";
+                    else if(c=='a' || c=='t' || c=='p') continue;
+                    else id+=c;
+
+                   // console.log(c)
+                }
+                    var s=''
+                if(sostojba=="Неупотребуван"){
+
+                    if(proizvoditel=="Bizz"){
+                        s= "<li class='ne' style='background: green'> Продавач: "+ime + " "+prezime+ " ID: "+ id+"<button id=\"conf\" disabled  >Потврди</button>  <button id=\"izbrisi\" disabled >Избриши</button></li>";
+
+                    }else s= "<li class='ne' style='background: green'> Продавач: "+ime + " "+prezime+ " ID: "+ id+"<button id=\"conf\"  onclick=\"potvrdi(this)\" >Потврди</button>  <button id=\"izbrisi\" onclick=\"del(this)\" >Избриши</button></li>";
+                }else if(sostojba=="Употребуван"){
+
+                    if(proizvoditel=="Bizz"){
+                        s= "<li style='background: yellow'> Продавач: "+ime + " "+prezime+ " ID: "+ id+"<button id=\"conf\" disabled  >Потврди</button>  <button id=\"izbrisi\" disabled >Избриши</button></li>";
+
+                    }else s= "<li style='background: yellow'> Продавач: "+ime + " "+prezime+ " ID: "+ id+"<button id=\"conf\" onclick=\"potvrdi(this)\">Потврди</button>  <button id=\"izbrisi\" onclick=\"del(this)\" >Избриши</button></li>";
+                }
+
+
+
+                var element = document.getElementById("lista")
+                element.innerHTML+=s
+                document.getElementById("ime").value="";
+               document.getElementById("prez").value="";
+               document.getElementById("dekl").value="";
+               document.getElementById("proiz").value="";
+                document.getElementById("sostojba").selectedIndex= 0
+                counter();
+            }else{ alert("Пополни ги сите полиња")}
+
+
+          //  console.log(ime, prezime, deklaracija,proizvoditel,sostojba)
+
+
+        }
+
+
+    </script>
+</head>
+<body>
+<table>
+    <tr>
+        <thead>
+
+        </thead>
+        <thed>
+            <h1>Online продажба</h1>
+        </thed>
+    </tr>
+    <tr>
+        <td>
+            <label>Име</label>
+        </td>
+        <td>
+            <input id="ime" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Презиме</label>
+        </td>
+        <td>
+            <input id="prez" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Декларација</label>
+        </td>
+        <td>
+            <input id="dekl" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Произодител</label>
+        </td>
+        <td>
+            <input id="proiz" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Состојба</label>
+        </td>
+        <td>
+            <select id="sostojba">
+                <option selected></option>
+                <option>Употребуван</option>
+                <option>Неупотребуван</option>
+            </select>
+        </td>
+    </tr>
+
+
+</table>
+    <button id="add" onclick="dodadi()">Додади</button>
+
+<ul id="lista">
+</ul>
+
+<div>Вкупно неискористени на продажба: <label id="count"></label></div>
+</body>
+</html>
